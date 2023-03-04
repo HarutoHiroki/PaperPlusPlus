@@ -70,13 +70,6 @@ class DisplayImage extends Component {
         };
       });
 
-    // put everything in text file
-    const element = document.createElement("a");
-    const file = new Blob(["hello"], {type: 'text/plain'});
-    element.href = URL.createObjectURL(file);
-    element.download = "myFile.txt";
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
   }
 
   render() {
@@ -84,6 +77,7 @@ class DisplayImage extends Component {
       <div>
         <div>
           <div>
+            <p>hello</p>
             <h1>Upload Images</h1>
             <p>Upload handwritten code (jpeg)</p>
             <input type="file" name="myImage" onChange={this.onImageChange} />
@@ -107,21 +101,16 @@ class DisplayImage extends Component {
 
             {/* this is where documents that have already been uploaded go */}
             <h2>Current images: </h2>
-            {this.state.documents.map(doc => (
-            <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src={doc.image} width={250} />
-                    <Card.Body>
-                        <Card.Title>{doc.className}</Card.Title>
-                        <Card.Text>
-                            Is main method: {doc.mainMethod.toString()}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>))} 
+            {this.state.documents.map(doc => (<div>
+                <img src={doc.image} width={250}/>
+                <p>class name: {doc.className}</p>
+                <p>is main method: {doc.mainMethod.toString()}</p>
+                </div>))} 
 
             <br />
-            <button onClick={this.submit}>
-                Done uploading
-            </button>
+            <form action="../../post" method="post" className="form">
+              <button type="submit">Done uploading</button>
+            </form>
 
           </div>
         </div>

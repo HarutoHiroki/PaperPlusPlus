@@ -2,7 +2,7 @@ const vision = require('@google-cloud/vision');
 const client = new vision.ImageAnnotatorClient();
 const fs = require('fs');
 const path = require('path');
-const { parse } = require("java-parser");
+const prettier = require("prettier");
 const { exec } = require('child_process');
 const process = require("process");
 
@@ -12,15 +12,16 @@ const DIR = `${process.cwd()}/data/scanned/`;
 async function parseJavaFile(path, fileName) {
   let [result] = await client.documentTextDetection(path);
   let fullTextAnnotation = result.fullTextAnnotation;
-  console.log(`Full text: ${fullTextAnnotation.text}`);
-  let parsedText = parse(fullTextAnnotation.text);
+
+  // parse text to java format
+  const parsedText = prettier.format(fullTextAnnotation.text, { parser: "java",tabWidth: 2 });
 
   // fs write parsedText to java file
   fs.writeFile(`${process.cwd()}/data/exported/${fileName}.java`, parsedText, (err) => {
     if (err) throw err;
     console.log('The file has been saved!');
   });
-}
+}[]
 
 // loop thru path directory using fs and parse each file
 function readFiles() {
@@ -40,7 +41,7 @@ function readFiles() {
 }
 
 function compileJavaFile() {
-  exec('javac compiledOutput.java', (err, stdout, stderr) => {
+  exec('[INSERT COMMAND HERE]', (err, stdout, stderr) => {
     if (err) throw err;
 
     // the *entire* stdout and stderr (buffered)

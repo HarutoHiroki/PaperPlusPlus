@@ -5,9 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "@google-cloud/vision": "^3.1.2",
+    "axios": "^1.3.4",
     "child_process": "^1.0.2",
+    "express": "^4.18.2",
     "fs": "^0.0.1-security",
-    "java-parser": "^2.0.3",
+    "nodemon": "^2.0.21",
     "path": "^0.12.7",
     "process": "^0.11.10",
     "react": "^18.2.0",
@@ -16,7 +18,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -27,5 +31,9 @@
   "bugs": {
     "url": "https://github.com/HarutoHiroki/MadHacks23/issues"
   },
-  "homepage": "https://github.com/HarutoHiroki/MadHacks23#readme"
+  "homepage": "https://github.com/HarutoHiroki/MadHacks23#readme",
+  "devDependencies": {
+    "prettier": "2.8.4",
+    "prettier-plugin-java": "^2.0.0"
+  }
 }
