@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactSwitch from 'react-switch';
+import Card from 'react-bootstrap/Card';
 
 class DisplayImage extends Component {
   constructor(props) {
@@ -68,6 +69,14 @@ class DisplayImage extends Component {
             documents,
         };
       });
+
+    // put everything in text file
+    const element = document.createElement("a");
+    const file = new Blob(["hello"], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = "myFile.txt";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
   }
 
   render() {
