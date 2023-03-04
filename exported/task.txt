@@ -1,1 +1,3 @@
-Java Files will be dumped in here
+fileA.java
+fileB.java
+javac.java main
