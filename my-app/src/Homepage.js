@@ -107,12 +107,16 @@ class DisplayImage extends Component {
 
             {/* this is where documents that have already been uploaded go */}
             <h2>Current images: </h2>
-            {this.state.documents.map(doc => (<div>
-                {console.log("doc base64: ", doc.base64)}
-                <img src={doc.image} width={250}/>
-                <p>class name: {doc.className}</p>
-                <p>is main method: {doc.mainMethod.toString()}</p>
-                </div>))} 
+            {this.state.documents.map(doc => (
+            <Card style={{ width: '18rem' }}>
+                <Card.Img variant="top" src={doc.image} width={250} />
+                    <Card.Body>
+                        <Card.Title>{doc.className}</Card.Title>
+                        <Card.Text>
+                            Is main method: {doc.mainMethod.toString()}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>))} 
 
             <br />
             <button onClick={this.submit}>
