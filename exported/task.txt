@@ -1,6 +1,6 @@
 fileA.java
 fileB.java
-javaMain.java main
+javaMain.java *main
 
 
 runApp: javaMain.class
