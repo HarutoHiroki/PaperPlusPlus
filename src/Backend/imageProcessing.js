@@ -4,11 +4,23 @@ const fs = require('fs');
 const path = require('path');
 const { parse } = require("java-parser");
 const { exec } = require('child_process');
-var process = require("process");
+const process = require("process");
 
+const DIR = `${process.cwd()}/data/scanned/`;
 
-const DIR = "./scanned/";
+// Read a local image as a text document and parse it to a java file
+async function parseJavaFile(path, fileName) {
+  let [result] = await client.documentTextDetection(path);
+  let fullTextAnnotation = result.fullTextAnnotation;
+  console.log(`Full text: ${fullTextAnnotation.text}`);
+  let parsedText = parse(fullTextAnnotation.text);
 
+  // fs write parsedText to java file
+  fs.writeFile(`${process.cwd()}/data/exported/${fileName}.java`, parsedText, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });
+}
 
 // loop thru path directory using fs and parse each file
 function readFiles() {
@@ -16,23 +28,14 @@ function readFiles() {
     if (err) throw err;
 
     files.forEach(file => {
-      console.log(path.join(DIR, file));
-      parseJavaFile(path.join(DIR, file));
+      if (file.includes('.jpg')) {
+        console.log(path.join(DIR, file));
+        parseJavaFile(path.join(DIR, file), file.split('.')[0]);
+      }
     });
-  });
-}
-
-// Read a local image as a text document and parse it to a java file
-async function parseJavaFile(fileName) {
-  let [result] = await client.documentTextDetection(fileName);
-  let fullTextAnnotation = result.fullTextAnnotation;
-  console.log(`Full text: ${fullTextAnnotation.text}`);
-  let parsedText = parse(fullTextAnnotation.text);
-
-  // fs write parsedText to java file
-  fs.writeFile('test.java', parsedText, (err) => {
-    if (err) throw err;
-    console.log('The file has been saved!');
+    //.then(() => {
+    //  compileJavaFile();
+    //});
   });
 }
 
@@ -46,7 +49,7 @@ function compileJavaFile() {
   });
 }
 
-
+module.exports = {readFiles};
 
 
 

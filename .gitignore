@@ -1,3 +1,7 @@
 /node_modules/*
 package-lock.json
-
+/data/exported/*.java
+/data/exported/*.txt
+/data/scanned/*.jpg
+/data/scanned/*.png
+/src/Backend/makefile
