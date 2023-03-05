@@ -13,7 +13,7 @@ function App() {
   const [documents, setDocuments] = useState([]);
   const [data, setData] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [result, setResult] = useState(false); //true if no errors
+  const [result, setResult] = useState(true); //true if no errors
   const [output, setOutput] = useState(null);
   const [displayError, setDisplayError] = useState(false);
   const [show, setShow] = useState(false);
@@ -72,6 +72,8 @@ function App() {
     try {
       let response = await axios.post("http://localhost:8080/",{documents})
       console.log(response.data);
+      setOutput(response.output);
+      setResult(response.result);
     } catch(e) {
       console.log("ERROR" + e);
       setShow(true);
@@ -85,7 +87,7 @@ function App() {
     <div className="App">
       <Navbar expand="lg" variant="dark" bg="primary">
         <Container>
-          <Navbar.Brand href="#">Execute Handwritten Code</Navbar.Brand>
+          <Navbar.Brand href="#">Paper +</Navbar.Brand>
         </Container>
       </Navbar>
       {show && <Alert variant="danger" onClose={() => setShow(false)} dismissible>
@@ -145,8 +147,8 @@ function App() {
           </div>
           <div className="child2 bg-light">
             <h1>Output</h1>
-                <div className="bg-dark" style={{minHeight: '500px', margin: '30px', marginTop: '0px'}}>
-                  <p className="output">{output ? output : "No output to display"}</p>
+                <div className="bg-dark" style={{minHeight: '500px', margin: '30px', marginTop: '0px', borderRadius: '15px'}}>
+                  {result ? <p className="output">{output ? output : "No output to display"}</p> : <p className="erroringCode">Errors found in code</p>}
                 </div>
                 {submitted && <div>
                   <p>Code submitted! Output should display above</p>
