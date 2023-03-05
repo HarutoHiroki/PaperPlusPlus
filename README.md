@@ -16,6 +16,7 @@ We created this submission for
 Disclaimers & limitations in current version:
 <ul> 
     <li>Cannot import external libraries
+    <li>Java classes on the paper must be marked public or private
     <li>API limits scope of handwriting recognition (very particular)
 </ul>
 Authors:
