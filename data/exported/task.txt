@@ -1,1 +1,1 @@
-Main.java*main
+Test.java*main
