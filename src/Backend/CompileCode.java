@@ -1,12 +1,19 @@
 package src.Backend;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.*;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.util.Scanner;
+import javax.tools.ToolProvider;
+
+import javax.tools.JavaCompiler;
+
 import java.io.StringWriter;
 
 
@@ -19,10 +26,23 @@ public class CompileCode {
     }
 
     private void start() {
-       
+        
         try {
             
-            Class<?> c = Class.forName("src.Backend.Test");
+            File dirFile = new File("src/user/");
+            
+            String contents[] = dirFile.list();
+
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            for(int i=0;i<contents.length;i++){
+                if(contents[i].contains(".java")&&!contents[i].contains("CompileCode")){
+                    compiler.run(null, null, null, "src/user/"+contents[i]);
+                    System.out.println("Compiling "+ contents[i]);
+                }
+            }
+        
+            URLClassLoader cs = new URLClassLoader(new URL[] {dirFile.toURI().toURL()});
+            Class<?> c = cs.loadClass(name);
             Method m = c.getDeclaredMethod("main", String[].class);
             m.invoke(null, (Object) new String[] {});
         } catch (Exception e) {
@@ -33,6 +53,7 @@ public class CompileCode {
     }
 
     public static void main(String[] args) {
+        
         File taskFile = new File("data/exported/task.txt");
         String mainMethod= "";
         Scanner sc = null;
@@ -52,8 +73,10 @@ public class CompileCode {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         // for testing: System.out.println(mainMethod);
-        CompileCode c = new CompileCode(mainMethod);
+        CompileCode c = new CompileCode("src.user."+mainMethod);
+        c.copyFiles();
         c.start();
         //TODO taskFile.delete();
     }
@@ -77,19 +100,63 @@ public class CompileCode {
         }
                
         pw.close();
+        
         return message;
     }
-    public void compileCode(){
-        ProcessBuilder pb = new ProcessBuilder();
-        File dirFile = new File("src/Backend");
+
+    public void copyFiles(){
+        File dirFile = new File("data/exported/");
+            
         String contents[] = dirFile.list();
         for(int i=0;i<contents.length;i++){
             if(contents[i].contains(".java")){
-                pb.command("javac", contents[i]);
+                copyContentHelper(new File("data/exported/"+contents[i]), new File("src/user/"+contents[i]));
             }
         }
-
-    } 
-
-
+    }
+   
+   
+    public void copyContentHelper(File a, File b)
+    {
+        FileInputStream in = null;
+        FileOutputStream out = null;
+        
+  
+        try {
+            in = new FileInputStream(a);
+            out = new FileOutputStream(b);
+            int n;
+            out.write("package src.user;\n".getBytes());
+            
+            // read() function to read the
+            // byte of data
+            while ((n = in.read()) != -1) {
+                // write() function to write
+                // the byte of data
+                out.write(n);
+            }
+        }catch(Exception e){
+            System.out.println(formatErrorString(e));
+        }
+        finally {
+            try {
+                if (in != null) {
+                    // close() function to close the
+                    // stream
+                    in.close();
+                }
+                // close() function to close
+                // the stream
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e) {
+                System.out.println(formatErrorString(e));
+            }      
+        }
+        System.out.println("File Copied");
+    }
 }
+
+
+
