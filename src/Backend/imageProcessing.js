@@ -83,12 +83,17 @@ function cleanUp() {
     }
   });
 
-  // delete all java files in exported directory
+  // delete all files in exported directory
   fs.readdir(`${process.cwd()}/data/exported/`, (err, files) => {
     if (err) throw err;
     for (const file of files) {
       if (file.includes('.java')) {
         fs.unlink(path.join(`${process.cwd()}/data/exported/`, file), err => {
+          if (err) throw err;
+        });
+      }
+      if (file.includes('.txt')) {
+        fs.writeFile(`${process.cwd()}/data/exported/task.txt`, "", (err) => {
           if (err) throw err;
         });
       }
@@ -106,6 +111,18 @@ function cleanUp() {
       }
     }
   });
+
+  // delete all files in User directory
+  fs.readdir(`${process.cwd()}/src/User/`, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      fs.unlink(path.join(`${process.cwd()}/src/User/`, file), err => {
+        if (err) throw err;
+      });
+    }
+  });
+
+  console.log("Janitor is done cleaning up!");
 }
 
 module.exports = {readFiles, compileJavaFile, cleanUp};
