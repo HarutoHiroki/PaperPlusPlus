@@ -35,7 +35,7 @@ public class CompileCode {
             for(int i=0;i<contents.length;i++){
                 if(contents[i].contains(".java")&&!contents[i].contains("CompileCode")){
                     compiler.run(null, null, null, "src/user/"+contents[i]);
-                    System.out.println("Compiling "+ contents[i]);
+                    //System.out.println("Compiling "+ contents[i]);
                 }
             }
         
@@ -76,6 +76,14 @@ public class CompileCode {
         CompileCode c = new CompileCode("src.user."+mainMethod);
         c.copyFiles();
         c.start();
+        File dirFile = new File("src/user/");
+            
+        String contents[] = dirFile.list();
+        for(int i=0;i<contents.length;i++){
+                File f1 = new File("src/user/"+contents[i]);
+                f1.delete();
+                //System.out.println("Deleting from user" + contents[i]);
+        }
     }
 
     public String formatErrorString(Exception e){
@@ -109,12 +117,11 @@ public class CompileCode {
                 File f2 = new File("src/user/"+contents[i]);
                 copyContentHelper(f1,f2);
                 f1.delete();
-                System.out.println("Deleting " + contents[i]);
+                //System.out.println("Deleting " + contents[i]);
         }
        
     }
-   
-   
+     
     public void copyContentHelper(File a, File b)
     {
         FileInputStream in = null;
