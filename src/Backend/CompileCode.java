@@ -18,7 +18,7 @@ public class CompileCode {
 
     private void start() {
         try {
-            Class<?> c = Class.forName("src.Backend." + name);
+            Class<?> c = Class.forName("data.exported."+name);
             Method m = c.getDeclaredMethod("main", String[].class);
             m.invoke(null, (Object) new String[] {});
         } catch (Exception e) {

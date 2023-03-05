@@ -59,8 +59,9 @@ async function compileJavaFile() {
         data.output = stdout;
       }
     }
+    console.log(stdout);
   });
-  return data;
+  //return data;
 }
 
 module.exports = {readFiles, compileJavaFile};
