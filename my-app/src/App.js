@@ -16,6 +16,7 @@ function App() {
   const [output, setOutput] = useState(null);
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [show3, setShow3] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const width = window.innerWidth;
@@ -84,11 +85,9 @@ function App() {
       console.log(response.data);
       setResult(response.data.result);
       if(response.data.output == "error processing files"){
-        setShow(true);
+        setShow3(true);
       }
-      else{
-        setOutput(response.data.output);
-      }
+      setOutput(response.data.output);
     } catch(e) {
       console.log("ERROR" + e);
       setShow(true);
@@ -119,6 +118,11 @@ function App() {
         <Alert.Heading>Invalid input</Alert.Heading>
         <p>Check that all fields are filled out, you have at least one document, and exactly one main method</p>
         <img src="https://http.cat/418" width={250}/>
+      </Alert>}
+      {show3 && <Alert variant="danger" onClose={() => setShow3(false)} dismissible>
+        <Alert.Heading>Faulty file</Alert.Heading>
+        <p>Image failed to process</p>
+        <img src="https://http.cat/400" width={250}/>
       </Alert>}
       <div className="Parent">
         <div className="child1">
