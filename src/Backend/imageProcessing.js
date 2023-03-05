@@ -42,7 +42,7 @@ async function compileJavaFile() {
     result: false,
     output: ""
   }
-  await exec(`cd "${process.cwd()}/src/Backend" && javac CompileCode.java && cd ${process.cwd()} && java src.Backend.CompileCode`, (err, stdout, stderr) => {
+  await exec(`cd "${process.cwd()}/src/Backend" && javac CompileCode.java && cd "${process.cwd()}" && java src.Backend.CompileCode`, (err, stdout, stderr) => {
     if (err) throw err;
 
     // the *entire* stdout and stderr (buffered)

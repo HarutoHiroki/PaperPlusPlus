@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.*;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Scanner;
 import java.io.StringWriter;
 
@@ -19,10 +17,8 @@ public class CompileCode {
     }
 
     private void start() {
-       
         try {
-            
-            Class<?> c = Class.forName("Main");
+            Class<?> c = Class.forName("src.Backend."+name);
             Method m = c.getDeclaredMethod("main", String[].class);
             m.invoke(null, (Object) new String[] {});
         } catch (Exception e) {
@@ -57,8 +53,6 @@ public class CompileCode {
         c.start();
         //TODO taskFile.delete();
     }
-
-
     public String formatErrorString(Exception e){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
