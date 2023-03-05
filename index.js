@@ -22,7 +22,7 @@ app.get("/", cors(), async (req, res) => {
 app.post("/", async (req, res) => {
   console.log("collected data from frontend");
   const { documents } = req.body;
-  let filesProcessed = 0;
+  let ready = false;
   documents.forEach(async (document) => {
     let className = document.className;
     let classMain = document.mainMethod;
@@ -33,15 +33,15 @@ app.post("/", async (req, res) => {
     } else {
       fs.writeFile(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`, (err) => { if (err) { console.log(err) } });
     }
-    try {
-      await imageProcessing.readFiles();
-      filesProcessed++;
-    } catch (err) {
-      return res.send({result: false, output: "error processing files"});
-    }
   });
+  try {
+    await imageProcessing.readFiles();
+    ready = true;
+  } catch (err) {
+    return res.send({result: false, output: "error processing files"});
+  }
   await sleep(5000);
-  if (filesProcessed == documents.length) {
+  if (ready) {
     console.log("sending data to frontend");
     data = await imageProcessing.compileJavaFile();
     res.send(data);

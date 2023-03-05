@@ -87,11 +87,11 @@ function cleanUp() {
   fs.readdir(`${process.cwd()}/data/exported/`, (err, files) => {
     if (err) throw err;
     for (const file of files) {
-      if (file.includes('.java')) {
-        fs.unlink(path.join(`${process.cwd()}/data/exported/`, file), err => {
-          if (err) throw err;
-        });
-      }
+      //if (file.includes('.java')) {
+      //  fs.unlink(path.join(`${process.cwd()}/data/exported/`, file), err => {
+      //    if (err) throw err;
+      //  });
+      //}
       if (file.includes('.txt')) {
         fs.writeFile(`${process.cwd()}/data/exported/task.txt`, "", (err) => {
           if (err) throw err;
@@ -116,9 +116,11 @@ function cleanUp() {
   fs.readdir(`${process.cwd()}/src/User/`, (err, files) => {
     if (err) throw err;
     for (const file of files) {
-      fs.unlink(path.join(`${process.cwd()}/src/User/`, file), err => {
-        if (err) throw err;
-      });
+      if (!file.includes('placeholder')) {
+        fs.unlink(path.join(`${process.cwd()}/src/User/`, file), err => {
+          if (err) throw err;
+        });
+      }
     }
   });
 
@@ -126,15 +128,6 @@ function cleanUp() {
 }
 
 module.exports = {readFiles, compileJavaFile, cleanUp};
-
-
-/* random cat
-const superagent = require('superagent');
-
-const { body } = await superagent
-  .get("http://aws.random.cat/meow");
-
-*/
 
 
 
