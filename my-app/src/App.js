@@ -70,31 +70,15 @@ function App() {
 
   const submit = async () => {
     try {
-      await axios.post("http://localhost:8080/",{documents})
+      let response = await axios.post("http://localhost:8080/",{documents})
+      console.log(response.data);
     } catch(e) {
       console.log("ERROR" + e);
       setShow(true);
     }
     setSubmitted(true);
-    getReq();
   }
 
-  const getReq = () => {
-    axios.get('http://localhost:8080/')
-    .then((getResponse) => {console.log(getResponse)});
-  }
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/", {
-  //     method: "POST",
-  //     headers: {
-  //       'Content-type': "application/json"
-  //     },
-  //   })
-  //   .then(res => res.json())
-  //   .then(data => console.log(data))
-  // }, []);
-  
   const refresh = () => window.location.reload(true)
 
   return (

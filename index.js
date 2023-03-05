@@ -4,13 +4,17 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser')
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({limit: '50mb'}));
+app.use(cors());
 const PORT = 8080;
 
 let data;
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
 app.get("/", cors(), async (req, res) => {
 });
@@ -18,6 +22,7 @@ app.get("/", cors(), async (req, res) => {
 app.post("/", async (req, res) => {
   console.log("collected data from frontend");
   const { documents } = req.body;
+  let filesProcessed = 0;
   documents.forEach(async (document) => {
     let className = document.className;
     let classMain = document.mainMethod;
@@ -29,19 +34,16 @@ app.post("/", async (req, res) => {
       fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`);
     }
     await imageProcessing.readFiles();
-  }, () => {
-    console.log("finished processing all images, running backend compiler");
-    data = imageProcessing.compileJavaFile();
-    sendData(data);
+    filesProcessed++;
   });
-});
-
-function sendData(data) {
-  app.get("/", cors(), async (req, res) => {
+  await sleep(5000);
+  if (filesProcessed == documents.length) {
+    console.log("sending data to frontend");
+    data = await imageProcessing.compileJavaFile();
     res.send(data);
     console.log("sent data to frontend");
-  });
-}
+  }
+});
 
   
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

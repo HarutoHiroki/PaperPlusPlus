@@ -28,21 +28,21 @@ function readFiles() {
   fs.readdir(DIR, (err, files) => {
     if (err) throw err;
 
-    files.forEach(file => {
+    files.forEach(async file => {
       if (file.includes('.jpg')) {
-        console.log(path.join(DIR, file));
-        parseJavaFile(path.join(DIR, file), file.split('.')[0]);
+        //console.log(path.join(DIR, file));
+        await parseJavaFile(path.join(DIR, file), file.split('.')[0]);
       }
     });
   });
 }
 
-function compileJavaFile() {
+async function compileJavaFile() {
   let data = {
     result: false,
     output: ""
   }
-  exec(`cd "${process.cwd()}/src/Backend" && javac CompileCode.java && cd "${process.cwd()}" && java src.Backend.CompileCode`, (err, stdout, stderr) => {
+  await exec(`cd "${process.cwd()}/src/Backend" && javac CompileCode.java && cd "${process.cwd()}" && java src.Backend.CompileCode`, (err, stdout, stderr) => {
     if (err) throw err;
 
     // the *entire* stdout and stderr (buffered)
@@ -53,15 +53,14 @@ function compileJavaFile() {
       let result = stdout.split('\n');
       if (result[0] == "true") {
         data.result = true;
-        data.output = result.join('\n');
+        data.output = stdout;
       } else {
         data.result = false;
-        data.output = result.join('\n');
+        data.output = stdout;
       }
     }
-
-    return data;
   });
+  return data;
 }
 
 module.exports = {readFiles, compileJavaFile};
