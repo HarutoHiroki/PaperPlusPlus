@@ -5,7 +5,7 @@
 
 We created this submission for
 <a href="https://www.madhacks.io/"><b>MadHacks 2023</b></a>. We hope you like it!
-<br>View the <a href="https://docs.google.com/presentation/d/1FKOwhARHGi6wQ65SD_Ygseh8P6zCMjH5ALz70doeUMg/edit?usp=sharing">related slide deck</a>.
+<br>View the <a href="https://docs.google.com/presentation/d/1FKOwhARHGi6wQ65SD_Ygseh8P6zCMjH5ALz70doeUMg/edit?usp=sharing" target="_blank" rel="noopener noreferrer">related slide deck</a>.</p>
 
 # Paper++
 <p>Have you ever felt the desire to code on paper?
