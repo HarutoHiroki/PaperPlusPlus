@@ -1,0 +1,7 @@
+runApp: Main.class
+	java Main
+
+clean:
+	 + rm -f *.class
+	 rm -f *~
+
