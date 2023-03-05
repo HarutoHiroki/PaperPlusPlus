@@ -25,20 +25,21 @@ async function parseJavaFile(path, fileName) {
     if (err) throw err;
     console.log('The file has been saved!');
   });
-}[]
+}
 
 // loop thru path directory using fs and parse each file
-function readFiles() {
+async function readFiles() {
+  let file;
   fs.readdir(DIR, (err, files) => {
     if (err) throw err;
-
-    files.forEach(async file => {
-      if (file.includes('.jpg')) {
-        //console.log(path.join(DIR, file));
-        await parseJavaFile(path.join(DIR, file), file.split('.')[0]);
-      }
-    });
+    file = files;
   });
+  await sleep(3000);
+  for(file of file) {
+    if (file.includes('.jpg')) {
+      await parseJavaFile(path.join(DIR, file), file.split('.')[0]);
+    }
+  }
 }
 
 async function compileJavaFile() {
@@ -69,7 +70,45 @@ async function compileJavaFile() {
   return data;
 }
 
-module.exports = {readFiles, compileJavaFile};
+function cleanUp() {
+  // delete all image files in scanned and exported directory
+  fs.readdir(`${process.cwd()}/data/scanned/`, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      if (file.includes('.jpg')) {
+        fs.unlink(path.join(`${process.cwd()}/data/scanned/`, file), err => {
+          if (err) throw err;
+        });
+      }
+    }
+  });
+
+  // delete all java files in exported directory
+  fs.readdir(`${process.cwd()}/data/exported/`, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      if (file.includes('.java')) {
+        fs.unlink(path.join(`${process.cwd()}/data/exported/`, file), err => {
+          if (err) throw err;
+        });
+      }
+    }
+  });
+
+  // delete all class files in Backend directory
+  fs.readdir(`${process.cwd()}/src/Backend/`, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      if (file.includes('.class')) {
+        fs.unlink(path.join(`${process.cwd()}/src/Backend/`, file), err => {
+          if (err) throw err;
+        });
+      }
+    }
+  });
+}
+
+module.exports = {readFiles, compileJavaFile, cleanUp};
 
 
 /* random cat

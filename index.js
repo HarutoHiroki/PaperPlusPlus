@@ -27,14 +27,18 @@ app.post("/", async (req, res) => {
     let className = document.className;
     let classMain = document.mainMethod;
     let buffer = Buffer.from(document.base64.split(",").pop(), "base64");
-    fs.writeFileSync(`${process.cwd()}/data/scanned/${className}.jpg`, buffer);
+    fs.writeFile(`${process.cwd()}/data/scanned/${className}.jpg`, buffer, (err) => { if (err) { console.log(err) } });
     if (classMain) {
-      fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java*main\n`);
+      fs.writeFile(`${process.cwd()}/data/exported/task.txt`, `${className}.java*main\n`, (err) => { if (err) { console.log(err) } });
     } else {
-      fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`);
+      fs.writeFile(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`, (err) => { if (err) { console.log(err) } });
     }
-    await imageProcessing.readFiles();
-    filesProcessed++;
+    try {
+      await imageProcessing.readFiles();
+      filesProcessed++;
+    } catch (err) {
+      return res.send({result: false, output: "error processing files"});
+    }
   });
   await sleep(5000);
   if (filesProcessed == documents.length) {
@@ -42,6 +46,7 @@ app.post("/", async (req, res) => {
     data = await imageProcessing.compileJavaFile();
     res.send(data);
     console.log("sent data to frontend");
+    imageProcessing.cleanUp();
   }
 });
 
