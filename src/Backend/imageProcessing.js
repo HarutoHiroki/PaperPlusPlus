@@ -113,11 +113,11 @@ function cleanUp() {
   });
 
   // delete all files in User directory
-  fs.readdir(`${process.cwd()}/src/User/`, (err, files) => {
+  fs.readdir(`${process.cwd()}/src/user/`, (err, files) => {
     if (err) throw err;
     for (const file of files) {
       if (!file.includes('placeholder')) {
-        fs.unlink(path.join(`${process.cwd()}/src/User/`, file), err => {
+        fs.unlink(path.join(`${process.cwd()}/src/user/`, file), err => {
           if (err) throw err;
         });
       }
