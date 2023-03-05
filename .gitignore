@@ -1,6 +1,6 @@
 /node_modules/*
 package-lock.json
+/data/exported/*.class
 /data/scanned/*.jpg
 /data/scanned/*.png
-/src/Backend/makefile
 /src/Backend/*.class
