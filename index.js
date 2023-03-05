@@ -28,7 +28,9 @@ app.post("/", async (req, res) => {
       fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`);
     }
     await imageProcessing.readFiles();
-    console.log("finished processing image, running backend compiler");
+  }, () => {
+    console.log("finished processing all images, running backend compiler");
+    //imageProcessing.compileJavaFile();
   });
 });
   
