@@ -8,7 +8,8 @@ We created this submission for
 
 
 # Paper++
-<p>Have you ever felt the desire to code on paper? 
+<p>Have you ever felt the desire to code on paper?
+<br>Have you ever had difficulty correcting a student's handwritten code?
 <br>If your answer was yes, we provide a solution: you provide picture(s), and we provide output.
   <br>It's that simple!</b>
   </p>
@@ -31,5 +32,6 @@ Authors:
 ### APIs used:
 - API for handwriting conversion: https://cloud.google.com/vision/docs/handwriting 
 - API for prettier: https://prettier.io/docs/en/api.html 
+- API for cat errors: https://http.cat/
 
 ##
