@@ -34,19 +34,33 @@ function readFiles() {
         parseJavaFile(path.join(DIR, file), file.split('.')[0]);
       }
     });
-    //.then(() => {
-    //  compileJavaFile();
-    //});
   });
 }
 
 function compileJavaFile() {
-  exec('[INSERT COMMAND HERE]', (err, stdout, stderr) => {
+  let data = {
+    result: false,
+    output: ""
+  }
+  exec(`cd "${process.cwd()}/src/Backend" && javac CompileCode.java && cd "${process.cwd()}" && java src.Backend.CompileCode`, (err, stdout, stderr) => {
     if (err) throw err;
 
     // the *entire* stdout and stderr (buffered)
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    if (stderr) {
+      data.result = false;
+      data.output = stderr;
+    } else {
+      let result = stdout.split('\n');
+      if (result[0] == "true") {
+        data.result = true;
+        data.output = result.join('\n');
+      } else {
+        data.result = false;
+        data.output = result.join('\n');
+      }
+    }
+
+    return data;
   });
 }
 

@@ -9,9 +9,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 const PORT = 8080;
-  
-app.get("/", cors(), (req, res) => {
-  console.log("collected data from frontend");
+
+let data;
+
+app.get("/", cors(), async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
@@ -23,16 +24,23 @@ app.post("/", async (req, res) => {
     let buffer = Buffer.from(document.base64.split(",").pop(), "base64");
     fs.writeFileSync(`${process.cwd()}/data/scanned/${className}.jpg`, buffer);
     if (classMain) {
-      fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java *main\n`);
+      fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java*main\n`);
     } else {
       fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`);
     }
     await imageProcessing.readFiles();
-  }, () => {
+  }, async () => {
     console.log("finished processing all images, running backend compiler");
-    //imageProcessing.compileJavaFile();
+    data = await imageProcessing.compileJavaFile();
+    sendData(data);
   });
 });
-  
+
+function sendData(data) {
+  app.get("/", cors(), async (req, res) => {
+    res.send(data);
+  });
+}
+
   
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

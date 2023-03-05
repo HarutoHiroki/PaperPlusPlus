@@ -1,7 +1,0 @@
-runApp: Test.class
-	java Test
-
-clean:
-	 + rm -f *.class
-	 rm -f *~
-
