@@ -5,7 +5,7 @@
 
 We created this submission for
 <a href="https://www.madhacks.io/"><b>MadHacks 2023</b></a>. We hope you like it!
-
+<br>View the <a href="https://docs.google.com/presentation/d/1FKOwhARHGi6wQ65SD_Ygseh8P6zCMjH5ALz70doeUMg/edit?usp=sharing">related slide deck</a>.
 
 # Paper++
 <p>Have you ever felt the desire to code on paper?
@@ -33,5 +33,3 @@ Authors:
 - API for handwriting conversion: https://cloud.google.com/vision/docs/handwriting 
 - API for prettier: https://prettier.io/docs/en/api.html 
 - API for cat errors: https://http.cat/
-
-##
