@@ -1,5 +1,17 @@
+h1 {
+  padding: 20px;
+  padding-top: 40px;
+}
+
 .App {
   text-align: center;
+}
+
+.output {
+  color: white;
+  text-align: left;
+  padding: 40px;
+  font: 1.2rem Inconsolata, monospace;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -30,4 +42,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Parent {
+  display: flex;
+  flex-direction: row;
+}
+
+.child1 {
+  width: 50%;
+  height: 100vh;
+  text-align: center;
+}
+
+.child2 {
+  width: 50%;
+  height: 100vh;
 }
