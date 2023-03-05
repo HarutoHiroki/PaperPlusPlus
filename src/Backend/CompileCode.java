@@ -77,13 +77,14 @@ public class CompileCode {
         c.copyFiles();
         c.start();
         File dirFile = new File("src/user/");
-            
+        
         String contents[] = dirFile.list();
         for(int i=0;i<contents.length;i++){
                 File f1 = new File("src/user/"+contents[i]);
-                f1.delete();
+                
                 //System.out.println("Deleting from user" + contents[i]);
         }
+        
     }
 
     public String formatErrorString(Exception e){
@@ -116,7 +117,7 @@ public class CompileCode {
                 File f1 = new File("data/exported/"+contents[i]);
                 File f2 = new File("src/user/"+contents[i]);
                 copyContentHelper(f1,f2);
-                f1.delete();
+                //f1.delete();
                 //System.out.println("Deleting " + contents[i]);
         }
        
@@ -160,7 +161,7 @@ public class CompileCode {
                 System.out.println(formatErrorString(e));
             }      
         }
-        System.out.println("File Copied");
+        //System.out.println("File Copied");
     }
 }
 
