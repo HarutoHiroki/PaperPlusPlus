@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useCallback } from "react";
 import ReactSwitch from 'react-switch';
 import Card from 'react-bootstrap/Card';
+import axios from 'axios'
+
 
 class DisplayImage extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class DisplayImage extends Component {
     };
 
     this.uploadDocument = this.uploadDocument.bind(this);
+    // this.triggerAPI = this.triggerAPI.bind(this);
   }
 
   onImageChange = event => {
@@ -38,11 +41,6 @@ class DisplayImage extends Component {
         reader.onerror = error => reject(error);
         reader.readAsDataURL(file);
      });
-  }
-
-  submit() {
-    // upload image in the correct format
-    console.log("submitted");
   }
 
   onClassChange = event => {
@@ -72,12 +70,22 @@ class DisplayImage extends Component {
 
   }
 
+  // handleSubmit = useCallback((e) => {
+  //   e.preventDefault()
+  //   this.triggerAPI();
+  // }, [this.triggerAPI])
+
+  // triggerAPI = useCallback(async () => {
+  //   // Use async await instead of chained promise
+  //   const res = await axios.post("http://localhost:8080/post", { object: this.state.documents });
+  //   console.log(res)
+  // }, [this.state.documents]);
+
   render() {
     return (
       <div>
         <div>
           <div>
-            <p>hello</p>
             <h1>Upload Images</h1>
             <p>Upload handwritten code (jpeg)</p>
             <input type="file" name="myImage" onChange={this.onImageChange} />
@@ -108,9 +116,6 @@ class DisplayImage extends Component {
                 </div>))} 
 
             <br />
-            <form action="../../post" method="post" className="form">
-              <button type="submit">Done uploading</button>
-            </form>
 
           </div>
         </div>
