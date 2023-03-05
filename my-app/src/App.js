@@ -72,8 +72,8 @@ function App() {
     try {
       let response = await axios.post("http://localhost:8080/",{documents})
       console.log(response.data);
-      setOutput(response.output);
-      setResult(response.result);
+      setOutput(response.data.output);
+      setResult(response.data.result);
     } catch(e) {
       console.log("ERROR" + e);
       setShow(true);
