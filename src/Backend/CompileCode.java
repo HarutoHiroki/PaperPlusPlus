@@ -15,6 +15,8 @@ import javax.tools.ToolProvider;
 import javax.tools.JavaCompiler;
 
 import java.io.StringWriter;
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 
 
 public class CompileCode {
@@ -80,8 +82,6 @@ public class CompileCode {
         c.start();
         //TODO taskFile.delete();
     }
-
-
     public String formatErrorString(Exception e){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
