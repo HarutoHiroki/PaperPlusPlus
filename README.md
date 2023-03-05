@@ -6,7 +6,7 @@ We created this submission for
 <a href="https://www.madhacks.io/"><b>MadHacks 2023</b></a>. We hope you like it!
 
 
-# Paper+
+# Paper++
 <p>Have you ever felt the desire to code on paper? 
 <br>If your answer was yes, we provide a solution: you provide picture(s), and we provide output.
   <br>It's that simple!</b>
