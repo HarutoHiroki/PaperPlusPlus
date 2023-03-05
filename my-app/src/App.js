@@ -72,6 +72,8 @@ function App() {
     try {
       let response = await axios.post("http://localhost:8080/",{documents})
       console.log(response.data);
+      setResult(response.data.result);
+      setOutput(response.data.output);
     } catch(e) {
       console.log("ERROR" + e);
       setShow(true);
@@ -145,7 +147,7 @@ function App() {
           </div>
           <div className="child2 bg-light">
             <h1>Output</h1>
-                <div className="bg-dark" style={{minHeight: '500px', margin: '30px', marginTop: '0px'}}>
+                <div className="bg-dark" style={{minHeight: '500px', margin: '30px', marginTop: '0px', borderRadius: '12px'}}>
                   <p className="output">{output ? output : "No output to display"}</p>
                 </div>
                 {submitted && <div>

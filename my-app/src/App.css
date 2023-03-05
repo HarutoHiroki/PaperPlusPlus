@@ -47,6 +47,7 @@ h1 {
 .Parent {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .child1 {
@@ -58,4 +59,16 @@ h1 {
 .child2 {
   width: 50%;
   height: 100vh;
+}
+
+@media screen and (max-width: 600px) {
+  .Parent {
+    flex-direction: column;
+  }
+  .child1 {
+    width: 100%
+  }
+  .child2 {
+    width: 100%
+  }
 }
