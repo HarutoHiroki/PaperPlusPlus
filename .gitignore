@@ -5,3 +5,5 @@ package-lock.json
 /data/scanned/*.jpg
 /data/scanned/*.png
 /src/Backend/*.class
+/src/User/*
+!/src/User/placeholder.txt
