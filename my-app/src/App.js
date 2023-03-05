@@ -180,7 +180,7 @@ function App() {
           <div className="child2 bg-light">
             <h1>Output</h1>
                 <div className="bg-dark" style={{minHeight: '500px', margin: '30px', marginTop: '0px', borderRadius: '12px'}}>
-                  {result ? <p className="output">{output ? output : "No output to display"}</p> : <p className="erroringCode">Error in code</p>}
+                  <p className="output">{output ? output : "No output to display"}</p>
                 </div>
                 {submitted && <div>
                   <p>Code submitted! Output should display above</p>
