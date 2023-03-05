@@ -50,7 +50,7 @@ function compileJavaFile() {
   });
 }
 
-module.exports = {readFiles};
+module.exports = {readFiles, compileJavaFile};
 
 
 

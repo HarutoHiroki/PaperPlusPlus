@@ -19,13 +19,16 @@ app.post("/", async (req, res) => {
   const { documents } = req.body;
   documents.forEach(async (document) => {
     let className = document.className;
-    let classMain = document.classMain;
+    let classMain = document.mainMethod;
     let buffer = Buffer.from(document.base64.split(",").pop(), "base64");
-
-    
-    
-
     fs.writeFileSync(`${process.cwd()}/data/scanned/${className}.jpg`, buffer);
+    if (classMain) {
+      fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java *main\n`);
+    } else {
+      fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`);
+    }
+    await imageProcessing.readFiles();
+    console.log("finished processing image, running backend compiler");
   });
 });
   
