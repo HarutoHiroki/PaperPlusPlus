@@ -50,7 +50,10 @@ public class FileCreator {
             System.out.println(s);
             System.out.println(returnString);
             pw.write(s);
-            pw.print(returnString);
+            pw.write(returnString);
+            s = "clean:\n"+"\t + rm -f *.class\n"+"\t rm -f *~\n\n";
+            pw.write(s);
+
             pw.close();
 
         } catch (IOException e) {
