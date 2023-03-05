@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from "react";
 import ReactSwitch from 'react-switch';
 import axios from 'axios'
-import { Button, Card, Navbar, Container, Form } from 'react-bootstrap';
+import { Button, Card, Navbar, Container, Form, Alert } from 'react-bootstrap';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
   const [result, setResult] = useState(false); //true if no errors
   const [output, setOutput] = useState(null);
   const [displayError, setDisplayError] = useState(false);
+  const [show, setShow] = useState(false);
 
   const width = window.innerWidth;
 
@@ -71,17 +72,22 @@ function App() {
     try {
       await axios.post("http://localhost:8080/",{documents})
     } catch(e) {
-      console.log(e);
+      console.log("ERROR" + e);
+      setShow(true);
     }
     setSubmitted(true);
-    getReq();
   }
 
-  const getReq = () => {
-    axios.get('http://localhost:8080/')
-    .then((getResponse) => {
-      console.log(getResponse)});
-  }
+  useEffect(() => {
+    fetch("http://localhost:8080/", {
+      method: "POST",
+      headers: {
+        'Content-type': "application/json"
+      },
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+  }, []);
   
   const refresh = () => window.location.reload(true)
 
@@ -92,6 +98,10 @@ function App() {
           <Navbar.Brand href="#">Execute Handwritten Code</Navbar.Brand>
         </Container>
       </Navbar>
+      <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <img src="https://http.cat/404" width={250}/>
+      </Alert>
       {displayError && <div class="alert alert-danger" role="alert">
         Please fill out all of the fields
       </div>}
