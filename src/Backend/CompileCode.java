@@ -19,18 +19,10 @@ public class CompileCode {
     }
 
     private void start() {
-        File f = new File("data/exported/Test");
-        URLClassLoader urlcl = null;
-        try{
-        URL[] cp = {f.toURI().toURL()};
-      urlcl = new URLClassLoader(cp);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        
-        
+       
         try {
-            Class<?> c = urlcl.loadClass("Test.java");
+            
+            Class<?> c = Class.forName("Main");
             Method m = c.getDeclaredMethod("main", String[].class);
             m.invoke(null, (Object) new String[] {});
         } catch (Exception e) {
@@ -65,6 +57,8 @@ public class CompileCode {
         c.start();
         //TODO taskFile.delete();
     }
+
+
     public String formatErrorString(Exception e){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
