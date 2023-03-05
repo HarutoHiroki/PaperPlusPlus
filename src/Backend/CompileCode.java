@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Scanner;
 import java.io.StringWriter;
 
@@ -17,8 +19,18 @@ public class CompileCode {
     }
 
     private void start() {
+        File f = new File("data/exported/Test");
+        URLClassLoader urlcl = null;
+        try{
+        URL[] cp = {f.toURI().toURL()};
+      urlcl = new URLClassLoader(cp);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
         try {
-            Class<?> c = Class.forName("data.exported."+name);
+            Class<?> c = urlcl.loadClass("Test.java");
             Method m = c.getDeclaredMethod("main", String[].class);
             m.invoke(null, (Object) new String[] {});
         } catch (Exception e) {
