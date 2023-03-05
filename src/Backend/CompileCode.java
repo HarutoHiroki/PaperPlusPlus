@@ -81,7 +81,7 @@ public class CompileCode {
         String contents[] = dirFile.list();
         for(int i=0;i<contents.length;i++){
                 File f1 = new File("src/user/"+contents[i]);
-                
+                f1.delete();
                 //System.out.println("Deleting from user" + contents[i]);
         }
         
