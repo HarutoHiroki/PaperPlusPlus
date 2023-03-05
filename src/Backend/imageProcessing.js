@@ -8,6 +8,10 @@ const process = require("process");
 
 const DIR = `${process.cwd()}/data/scanned/`;
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // Read a local image as a text document and parse it to a java file
 async function parseJavaFile(path, fileName) {
   let [result] = await client.documentTextDetection(path);
@@ -42,26 +46,57 @@ async function compileJavaFile() {
     result: false,
     output: ""
   }
-  await exec(`cd "${process.cwd()}/src/Backend" && javac CompileCode.java && cd "${process.cwd()}" && java src.Backend.CompileCode`, (err, stdout, stderr) => {
-    if (err) throw err;
-
-    // the *entire* stdout and stderr (buffered)
-    if (stderr) {
-      data.result = false;
-      data.output = stderr;
-    } else {
-      let result = stdout.split('\n');
-      if (result[0] == "true") {
-        data.result = true;
-        data.output = stdout;
-      } else {
-        data.result = false;
-        data.output = stdout;
-      }
-    }
-    console.log(stdout);
-  });
+  //await exec(`javac "${process.cwd()}/src/Backend/CompileCode.java" && java -cp .;src/Backend/ src.Backend.CompileCode`, (err, stdout, stderr) => {
+  //  if (err) throw err;
+//
+  //  // the *entire* stdout and stderr (buffered)
+  //  if (stderr) {
+  //    data.result = false;
+  //    data.output = stderr;
+  //  } else {
+  //    let result = stdout.split('\n');
+  //    if (result[0] == "true") {
+  //      data.result = true;
+  //      data.output = stdout;
+  //    } else {
+  //      data.result = false;
+  //      data.output = stdout;
+  //    }
+  //  }
+  //  console.log(stdout);
+  //});
   //return data;
+
+  // read task.txt in data/exported
+  let task = fs.readFileSync(`${process.cwd()}/data/exported/task.txt`, 'utf8');
+  let taskArray = task.split('\n');
+  taskArray.forEach(async (task) => {
+    if (task != "") {
+      let taskSplit = task.split('*');
+      let className = taskSplit[0].split('.')[0];
+      await exec(`javac "${process.cwd()}/data/exported/${className}.java"`, (err, stdout, stderr) => {
+        if (err) throw err;
+      });
+    }
+  });
+  taskArray.forEach(async (task) => {
+    if (task != "" && task.split("*")[1] == "main") {
+      let className = task.split('*')[0].split('.')[0];
+      await exec(`cd ${process.cwd()} && java -cp .;data/exported/ ${className}`, (err, stdout, stderr) => {
+        if (err) throw err;
+
+        if (stderr) {
+          data.result = false;
+          data.output = stderr;
+        } else {
+          data.result = true;
+          data.output = stdout;
+        }
+      });
+    }
+  });
+  await sleep(1000);
+  return data;
 }
 
 module.exports = {readFiles, compileJavaFile};
