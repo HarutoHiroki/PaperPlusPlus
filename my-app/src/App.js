@@ -1,8 +1,8 @@
 import './App.css';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactSwitch from 'react-switch';
 import axios from 'axios'
-import { Button, Card, Navbar, Container, Form, Alert } from 'react-bootstrap';
+import { Button, Card, Navbar, Container, Form, Alert, Modal } from 'react-bootstrap';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -11,12 +11,12 @@ function App() {
   const [mainMethod, setMainMethod] = useState(false);
   const [base64, setBase64] = useState(null);
   const [documents, setDocuments] = useState([]);
-  const [data, setData] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [result, setResult] = useState(false); //true if no errors
+  const [result, setResult] = useState(true); //true if no errors
   const [output, setOutput] = useState(null);
-  const [displayError, setDisplayError] = useState(false);
   const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const width = window.innerWidth;
 
@@ -55,30 +55,51 @@ function App() {
     }));
     }
     else{
-      setDisplayError(true);
+      setShow2(true);
     }
 
   }
 
   const allFieldsComplete=()=>{
     if(className && currImage){
-      setDisplayError(false);
+      setShow2(false);
       return true;
     }
     return false;
   }
 
   const submit = async () => {
-    try {
+    setLoading(true);
+    let valid = false;
+    let numMain = 0;
+    if(documents.length != 0){
+      documents.forEach((document) => {(document.mainMethod==true) ? numMain++ : numMain = numMain});
+    }
+    if(documents.length > 0 && numMain == 1){
+      valid = true;
+    }
+    if(valid){    
+      try {
       let response = await axios.post("http://localhost:8080/",{documents})
       console.log(response.data);
       setResult(response.data.result);
-      setOutput(response.data.output);
+      if(response.data.output == "error processing files"){
+        setShow(true);
+      }
+      else{
+        setOutput(response.data.output);
+      }
     } catch(e) {
       console.log("ERROR" + e);
       setShow(true);
     }
     setSubmitted(true);
+  }
+  else{
+    setShow2(true);
+  }
+  setLoading(false);
+
   }
 
   const refresh = () => window.location.reload(true)
@@ -87,16 +108,18 @@ function App() {
     <div className="App">
       <Navbar expand="lg" variant="dark" bg="primary">
         <Container>
-          <Navbar.Brand href="#">Execute Handwritten Code</Navbar.Brand>
+          <Navbar.Brand href="#">Paper++</Navbar.Brand>
         </Container>
       </Navbar>
       {show && <Alert variant="danger" onClose={() => setShow(false)} dismissible>
         <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-        <img src="https://http.cat/404" width={250}/>
+        <img src="https://http.cat/405" width={250}/>
       </Alert>}
-      {displayError && <div class="alert alert-danger" role="alert">
-        Please fill out all of the fields
-      </div>}
+      {show2 && <Alert variant="danger" onClose={() => setShow2(false)} dismissible>
+        <Alert.Heading>Invalid input</Alert.Heading>
+        <p>Check that all fields are filled out, you have at least one document, and exactly one main method</p>
+        <img src="https://http.cat/418" width={250}/>
+      </Alert>}
       <div className="Parent">
         <div className="child1">
       <h1>Upload Documents</h1>
@@ -114,7 +137,7 @@ function App() {
               </Form>
             </div>
             {/* <input type="text" name="className" onChange={onClassChange} /> */}
-            <p>This document contains the main file: </p>
+            <p>This document contains the main method: </p>
             <ReactSwitch
                 checked={mainMethod}
                 onChange={changeChecked}
@@ -124,7 +147,7 @@ function App() {
             <Button variant="primary" onClick={uploadDocument}>Upload document</Button>
             <h2 style={{marginTop: '20px'}}>Current documents: </h2>
             <div className='d-flex justify-content-center'>
-              <div className="d-flex flex-row mb-3">
+              <div className="d-flex flex-row mb-3 justify-content-center" id="cardDiv">
               {(documents.length==0) && <p>Currently no uploaded documents</p>}
               {documents.map(doc => (
               <div className="p-2">
@@ -140,7 +163,12 @@ function App() {
               </div>))} 
               </div>        
             </div>
-            <Button variant="primary" onClick={submit}>Submit</Button>
+            {loading ? (<Modal show={true}>
+              <Modal.Header closeButton>
+                <Modal.Title>Loading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body><img src="https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?resize=476%2C280&ssl=1" width="467vw"/></Modal.Body>
+            </Modal>) : <Button variant="primary" onClick={submit}>Submit</Button>}
               {/* <form onSubmit={submit}>
                 <input class="btn btn-primary" type="submit" value="Submit" />
               </form> */}
@@ -148,7 +176,7 @@ function App() {
           <div className="child2 bg-light">
             <h1>Output</h1>
                 <div className="bg-dark" style={{minHeight: '500px', margin: '30px', marginTop: '0px', borderRadius: '12px'}}>
-                  <p className="output">{output ? output : "No output to display"}</p>
+                  {result ? <p className="output">{output ? output : "No output to display"}</p> : <p className="erroringCode">Error in code</p>}
                 </div>
                 {submitted && <div>
                   <p>Code submitted! Output should display above</p>
