@@ -29,9 +29,9 @@ app.post("/", async (req, res) => {
       fs.writeFileSync(`${process.cwd()}/data/exported/task.txt`, `${className}.java\n`);
     }
     await imageProcessing.readFiles();
-  }, async () => {
+  }, () => {
     console.log("finished processing all images, running backend compiler");
-    data = await imageProcessing.compileJavaFile();
+    data = imageProcessing.compileJavaFile();
     sendData(data);
   });
 });
@@ -39,6 +39,7 @@ app.post("/", async (req, res) => {
 function sendData(data) {
   app.get("/", cors(), async (req, res) => {
     res.send(data);
+    console.log("sent data to frontend");
   });
 }
 
