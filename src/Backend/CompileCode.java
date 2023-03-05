@@ -22,7 +22,7 @@ public class CompileCode {
        
         try {
             
-            Class<?> c = Class.forName("Main");
+            Class<?> c = Class.forName("src.Backend.Test");
             Method m = c.getDeclaredMethod("main", String[].class);
             m.invoke(null, (Object) new String[] {});
         } catch (Exception e) {
@@ -79,4 +79,17 @@ public class CompileCode {
         pw.close();
         return message;
     }
+    public void compileCode(){
+        ProcessBuilder pb = new ProcessBuilder();
+        File dirFile = new File("src/Backend");
+        String contents[] = dirFile.list();
+        for(int i=0;i<contents.length;i++){
+            if(contents[i].contains(".java")){
+                pb.command("javac", contents[i]);
+            }
+        }
+
+    } 
+
+
 }
