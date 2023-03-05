@@ -8,15 +8,11 @@ import java.io.PrintWriter;
 import java.lang.reflect.*;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Path;
 import java.util.Scanner;
 import javax.tools.ToolProvider;
-
 import javax.tools.JavaCompiler;
-
 import java.io.StringWriter;
-import javax.tools.JavaCompiler;
-import javax.tools.ToolProvider;
+
 
 
 public class CompileCode {
@@ -80,8 +76,8 @@ public class CompileCode {
         CompileCode c = new CompileCode("src.user."+mainMethod);
         c.copyFiles();
         c.start();
-        //TODO taskFile.delete();
     }
+
     public String formatErrorString(Exception e){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -109,10 +105,13 @@ public class CompileCode {
             
         String contents[] = dirFile.list();
         for(int i=0;i<contents.length;i++){
-            if(contents[i].contains(".java")){
-                copyContentHelper(new File("data/exported/"+contents[i]), new File("src/user/"+contents[i]));
-            }
+                File f1 = new File("data/exported/"+contents[i]);
+                File f2 = new File("src/user/"+contents[i]);
+                copyContentHelper(f1,f2);
+                f1.delete();
+                System.out.println("Deleting " + contents[i]);
         }
+       
     }
    
    
