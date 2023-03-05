@@ -1,4 +1,5 @@
-<img width="128" alt="medium" src="https://user-images.githubusercontent.com/87912872/222943757-b658e2bf-c654-490c-85b5-0f84ca185d59.png">
+<img width="200" alt="p++" src="https://user-images.githubusercontent.com/87912872/222970565-a8187f48-60a4-42d7-b714-1f2ad85a7ff1.png">
+
 
 # Hello MadHacks! 
 
