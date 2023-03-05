@@ -1,5 +1,5 @@
-runApp: Main.class
-	java Main
+runApp: Test.class
+	java Test
 
 clean:
 	 + rm -f *.class

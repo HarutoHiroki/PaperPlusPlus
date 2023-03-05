@@ -1,9 +1,7 @@
 package src.Backend;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.Scanner;
 
@@ -26,25 +24,29 @@ public class CompileCode {
     }
 
     public static void main(String[] args) {
-        String main = "";
+        File taskFile = new File("data/exported/task.txt");
+        String mainMethod= "";
         Scanner sc = null;
         try {
-            sc = new Scanner("data/exported/task.txt");
+            sc = new Scanner(taskFile);
+
+            //Can use String.indent(4); for a tab
 
             while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+
                 if (line.contains("*main")) {
-                    main = line.replace(" *main", "");
+                    mainMethod = line.replace(" *main", "");
+                    mainMethod = mainMethod.replace(".java", "");
+                    // mainMethod = "RunApp: " + mainMethod + ".class";
                     break;
                 }
             }
-        } catch (Exception e) {
-            System.out.println(false + "\n" + e.getCause());
-        } finally {
-            sc.close();
-            main = main.trim();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        
-        CompileCode c = new CompileCode(main);
+        System.out.println(mainMethod);
+        CompileCode c = new CompileCode(mainMethod);
         c.start();
     }
 }
