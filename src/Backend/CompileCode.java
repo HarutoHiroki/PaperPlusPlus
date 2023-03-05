@@ -1,22 +1,18 @@
 package src.Backend;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.*;
+import java.util.Scanner;
 
 public class CompileCode {
 
-    private boolean status; // status of the compilation
-    private String name; // name of the class to be compiled
+    private String name; // name of the class to be compile
 
     public CompileCode(String name) {
         this.name = name;
-    }
-
-    public static void main(String[] args) {
-        CompileCode c = new CompileCode("Test");
-        c.start();
     }
 
     private void start() {
@@ -28,5 +24,9 @@ public class CompileCode {
             System.out.println(false + "\n" + e.getCause());
         }
     }
+
+    public static void main(String[] args) {
+        CompileCode c = new CompileCode(file);
+        c.start();
+    }
 }
- 
