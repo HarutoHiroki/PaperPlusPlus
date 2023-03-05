@@ -26,7 +26,25 @@ public class CompileCode {
     }
 
     public static void main(String[] args) {
-        CompileCode c = new CompileCode(file);
+        String main = "";
+        Scanner sc = null;
+        try {
+            sc = new Scanner("data/exported/task.txt");
+
+            while (sc.hasNextLine()) {
+                if (line.contains("*main")) {
+                    main = line.replace(" *main", "");
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(false + "\n" + e.getCause());
+        } finally {
+            sc.close();
+            main = main.trim();
+        }
+        
+        CompileCode c = new CompileCode(main);
         c.start();
     }
 }
