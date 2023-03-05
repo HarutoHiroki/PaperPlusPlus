@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.*;
 import java.util.Scanner;
 import java.io.StringWriter;
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 
 
 public class CompileCode {
@@ -18,6 +20,16 @@ public class CompileCode {
 
     private void start() {
         try {
+             ProcessBuilder pb = new ProcessBuilder();
+            File dirFile = new File("src/Backend");
+            String contents[] = dirFile.list();
+
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            for(int i=0;i<contents.length;i++){
+                if(contents[i].contains(".java")&&!contents[i].contains("CompileCode")){
+                    compiler.run(null, null, null, "src/Backend/"+contents[i]);
+                }
+            }
             Class<?> c = Class.forName("src.Backend."+name);
             Method m = c.getDeclaredMethod("main", String[].class);
             m.invoke(null, (Object) new String[] {});
@@ -29,7 +41,7 @@ public class CompileCode {
     }
 
     public static void main(String[] args) {
-        File taskFile = new File("data/exported/task.txt");
+        File taskFile = new File("/data/exported/task.txt");
         String mainMethod= "";
         Scanner sc = null;
         try {
