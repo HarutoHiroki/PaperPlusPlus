@@ -1,3 +1,10 @@
+/**
+ * @fileoverview This file is the entry point for the backend of the application.
+ * It contains the express server and the routes.
+ * 
+ */
+
+// Imports
 const imageProcessing = require('./src/Backend/imageProcessing');
 const fs = require('fs');
 const express = require("express");
@@ -11,6 +18,11 @@ const PORT = 8080;
 
 let data;
 
+/**
+ * Sleep function
+ * @param {*} ms 
+ * 
+ */
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
