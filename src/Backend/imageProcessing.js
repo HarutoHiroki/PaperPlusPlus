@@ -1,3 +1,9 @@
+/**
+ * @fileoverview This file contains the functions that will be used to process the image
+ * and compile the java file.
+ */
+
+// Imports
 const vision = require('@google-cloud/vision');
 const client = new vision.ImageAnnotatorClient();
 const fs = require('fs');
@@ -6,13 +12,23 @@ const prettier = require("prettier");
 const { exec } = require('child_process');
 const process = require("process");
 
+// Path to the scanned directory
 const DIR = `${process.cwd()}/data/scanned/`;
 
+/**
+ * Sleep function
+ * @param {*} ms 
+ * @returns 
+ */
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Read a local image as a text document and parse it to a java file
+/**
+ * Parse the text from the image to a java file
+ * @param {*} path
+ * @param {*} fileName 
+ */
 async function parseJavaFile(path, fileName) {
   let [result] = await client.documentTextDetection(path);
   let fullTextAnnotation = result.fullTextAnnotation;
@@ -27,7 +43,11 @@ async function parseJavaFile(path, fileName) {
   });
 }
 
-// loop thru path directory using fs and parse each file
+/**
+ * Read all files in the scanned directory and parse them to java files
+ * 
+ * @returns {void}
+ */
 async function readFiles() {
   let file;
   fs.readdir(DIR, (err, files) => {
@@ -42,6 +62,11 @@ async function readFiles() {
   }
 }
 
+/**
+ *  Compile the java file and run it
+ * 
+ * @returns {Object} data
+ */
 async function compileJavaFile() {
   let data = {
     result: false,
@@ -70,6 +95,10 @@ async function compileJavaFile() {
   return data;
 }
 
+/**
+ * Clean up the data directory
+ * 
+ */
 function cleanUp() {
   // delete all image files in scanned and exported directory
   fs.readdir(`${process.cwd()}/data/scanned/`, (err, files) => {
