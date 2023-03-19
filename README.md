@@ -4,7 +4,7 @@
 # MOVED OVER TO ORG REPO! [CLICK HERE](https://github.com/Paper-Plus-Plus/PaperPlusPlus)
 
 
-# Hello MadHacks! 
+# Hello MadHacks! [![wakatime](https://wakatime.com/badge/user/e65a0c18-b5e8-460f-ad9a-58570b271833/project/d4f361c3-fcd2-4419-bf60-b200c3e88478.svg)](https://wakatime.com/badge/user/e65a0c18-b5e8-460f-ad9a-58570b271833/project/d4f361c3-fcd2-4419-bf60-b200c3e88478)
 
 We created this submission for
 <a href="https://www.madhacks.io/"><b>MadHacks 2023</b></a>. We hope you like it!
